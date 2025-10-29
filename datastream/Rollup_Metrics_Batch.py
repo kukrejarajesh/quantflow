@@ -1,108 +1,95 @@
 import os
 import pandas as pd
 
-def rollup_metrics(base_dir: str, output_dir: str):
+def rollup_metrics(df, freq='1Min'):
     """
-    Rollup tick-level metrics to minute, hourly, and daily metrics for all instruments.
+    Roll up tick-level metrics to minute/hour/day level.
+    freq can be '1Min', '1H', '1D', etc.
+    """
+    if df.empty:
+        return pd.DataFrame()
+    
+    # Ensure timestamps are datetime
+    df['exchange_timestamp'] = pd.to_datetime(df['exchange_timestamp'])
 
-    Args:
-        base_dir: Directory containing tick-level Parquet files (per instrument/date)
-        output_dir: Root directory to save rolled-up metrics
+    grouped = df.groupby([
+        'instrument_token',
+        pd.Grouper(key='exchange_timestamp', freq=freq)
+    ])
+
+    rolled = grouped.agg({
+        'last_price': ['first', 'max', 'min', 'last'],
+        'volume_traded': 'last',
+        'volume_delta': 'sum',
+        'cumulative_volume_delta': 'last',
+        'vwap': 'last',
+        'Fast_MA': 'last',
+        'Slow_MA': 'last'
+    })
+
+    rolled.columns = [
+        'ohlc_open', 'ohlc_high', 'ohlc_low', 'ohlc_close',
+        'volume_traded', 'volume_delta', 'cumulative_volume_delta',
+        'vwap', 'Fast_MA', 'Slow_MA'
+    ]
+
+    rolled = rolled.reset_index()
+    rolled['trading_date'] = rolled['exchange_timestamp'].dt.date
+    
+    return rolled
+
+
+
+
+def rollup_all_instruments(metrics_base_dir="metrics_data", output_base_dir="metrics_rollup"):
     """
-    for date_folder in sorted(os.listdir(base_dir)):
-        date_path = os.path.join(base_dir, date_folder)
+    Rolls up fast_ma and slow_ma from tick-level to minute, hourly, and daily for all instruments and dates.
+    """
+    intervals = ["minute", "hourly", "daily"]
+
+    # Iterate over all date folders
+    for trade_date in os.listdir(metrics_base_dir):
+        date_path = os.path.join(metrics_base_dir, trade_date)
         if not os.path.isdir(date_path):
             continue
 
-        for parquet_file in sorted(os.listdir(date_path)):
-            if not parquet_file.endswith(".parquet"):
+        # Iterate over all instruments in the date folder
+        for file_name in os.listdir(date_path):
+            if not file_name.endswith(".parquet"):
                 continue
 
-            file_path = os.path.join(date_path, parquet_file)
+            instrument_token = file_name.replace(".parquet", "")
+            file_path = os.path.join(date_path, file_name)
+            
+            # Load tick-level metrics
             df = pd.read_parquet(file_path)
             if df.empty:
                 continue
-
-            # Ensure proper timestamp
-            df['exchange_timestamp'] = pd.to_datetime(df['exchange_timestamp'])
-
-            # Add minute, hour columns for grouping
-            df['minute'] = df['exchange_timestamp'].dt.floor('T')  # round down to minute
-            df['hour'] = df['exchange_timestamp'].dt.floor('H')    # round down to hour
-            df['date'] = df['exchange_timestamp'].dt.date
-
-            instrument_token = df['instrument_token'].iloc[0]
-
-            # --- Rollup to minute ---
-            minute_df = df.groupby('minute').agg({
-                'last_price': 'last',
-                'average_traded_price': 'last',
-                'volume_traded': 'sum',
-                'cumulative_volume_delta': 'last',
-                'vwap': 'last',
-                'fast_ma': 'last',
-                'slow_ma': 'last',
-                'ohlc_open': 'first',
-                'ohlc_high': 'max',
-                'ohlc_low': 'min',
-                'ohlc_close': 'last'
-            }).reset_index()
-            
-            minute_dir = os.path.join(output_dir, 'minute', str(date_folder))
+            minute_df= rollup_metrics(df,"1min" )
+            minute_dir = os.path.join(output_base_dir, 'minute', str(trade_date))
             os.makedirs(minute_dir, exist_ok=True)
             minute_df.to_parquet(os.path.join(minute_dir, f"{instrument_token}.parquet"), index=False)
 
-            # --- Rollup to hourly ---
-            hourly_df = df.groupby('hour').agg({
-                'last_price': 'last',
-                'average_traded_price': 'last',
-                'volume_traded': 'sum',
-                'cumulative_volume_delta': 'last',
-                'vwap': 'last',
-                'fast_ma': 'last',
-                'slow_ma': 'last',
-                'ohlc_open': 'first',
-                'ohlc_high': 'max',
-                'ohlc_low': 'min',
-                'ohlc_close': 'last'
-            }).reset_index()
-
-            hourly_dir = os.path.join(output_dir, 'hourly', str(date_folder))
+            df_hourly = rollup_metrics(df,"1h")
+            hourly_dir = os.path.join(output_base_dir, 'hourly', str(trade_date))
             os.makedirs(hourly_dir, exist_ok=True)
-            hourly_df.to_parquet(os.path.join(hourly_dir, f"{instrument_token}.parquet"), index=False)
+            df_hourly.to_parquet(os.path.join(hourly_dir, f"{instrument_token}.parquet"), index=True)
 
-            # --- Rollup to daily ---
-            daily_df = df.groupby('date').agg({
-                'last_price': 'last',
-                'average_traded_price': 'last',
-                'volume_traded': 'sum',
-                'cumulative_volume_delta': 'last',
-                'vwap': 'last',
-                'fast_ma': 'last',
-                'slow_ma': 'last',
-                'ohlc_open': 'first',
-                'ohlc_high': 'max',
-                'ohlc_low': 'min',
-                'ohlc_close': 'last'
-            }).reset_index()
-
-            daily_dir = os.path.join(output_dir, 'daily', str(date_folder))
+            df_daily = rollup_metrics(df,"1d")
+            daily_dir = os.path.join(output_base_dir, "daily", trade_date)
             os.makedirs(daily_dir, exist_ok=True)
-            daily_df.to_parquet(os.path.join(daily_dir, f"{instrument_token}.parquet"), index=False)
+            df_daily.to_parquet(os.path.join(daily_dir, f"{instrument_token}.parquet"), index=True)
+            
+            
 
-            print(f"✅ Rolled up metrics for instrument {instrument_token} on {date_folder}")
+            print(f"✅ Rolled up instrument {instrument_token} for {trade_date}")
+
 
 
 
 def main():
-    # Directory where tick-level metrics are stored
-    tick_metrics_dir = "metrics/tick"  # change this to your tick-level metrics folder
-
-    # Directory where rolled-up data will be saved
-    output_dir = "metrics/rollup"
-
-    # Call the batch rollup function
-    rollup_metrics(base_dir=tick_metrics_dir, output_dir=output_dir)
+    rollup_all_instruments(metrics_base_dir="metrics_data", output_base_dir="metrics_rollup")
 
 if __name__ == "__main__":
     main()
+
