@@ -2,7 +2,9 @@ import pyarrow.parquet as pq
 
 # 1. Read the file
 #parquet_file = pq.ParquetFile('historicaldata/WIPRO.parquet')
-parquet_file = pq.ParquetFile('tick_data/2025-10-29/895745.parquet')
+#parquet_file = pq.ParquetFile('tick_data/2025-10-29/3329.parquet')
+parquet_file = pq.ParquetFile('metrics_data/2025-10-29/140033.parquet')
+
 #parquet_file = pq.ParquetFile('E:/working/historicaldata/1mincandles/ICIBAN.parquet')
 #parquet_file = pq.ParquetFile('historicaldata/CADHEA_1day_20220101_20251017.parquet')
 # 2. Inspect the Schema

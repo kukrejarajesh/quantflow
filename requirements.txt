@@ -1,0 +1,5 @@
+pandas
+vectorbt
+kiteconnect
+python-dotenv
+pyarrow
