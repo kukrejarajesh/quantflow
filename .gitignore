@@ -1,0 +1,83 @@
+# ---------------------------------------------
+# 1. Operating System/Editor Files
+# ---------------------------------------------
+# Thumbnails and system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Common text editor/IDE temporary files
+*~
+\#*
+.vscode/ # VS Code settings, if you don't want to share them
+.idea/    # IntelliJ/WebStorm project files
+*.sublime-workspace
+*.swp
+.history/ # VS Code extension history
+
+# ---------------------------------------------
+# 2. Build & Dependency Directories
+# ---------------------------------------------
+# Node.js
+/node_modules
+/npm-debug.log
+/yarn-error.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyd
+*.so
+/venv
+
+# Ruby/Rails
+/vendor/bundle
+/log/*
+/tmp/*
+
+# Java/Maven/Gradle
+/target/
+/build/
+*.class
+
+# C/C++
+/cmake-build-*/
+*.o
+*.a
+*.obj
+
+# ---------------------------------------------
+# 3. Compiled Output
+# ---------------------------------------------
+# Compiled HTML/CSS/JS (e.g., from Sass or TypeScript)
+/dist/
+/out/
+/public/build/
+
+# ---------------------------------------------
+# 4. Logs and Temporary Data
+# ---------------------------------------------
+*.log
+*.temp
+*.tmp
+# Backup files
+*.[Bb][Aa][Kk]
+*.[Ss][Aa][Vv]
+# Database files (if using a local development database)
+*.sqlite
+*.db
+
+# ---------------------------------------------
+# 5. Environment & Credentials
+# ---------------------------------------------
+# Keep API keys, passwords, and sensitive information OUT of Git!
+.env
+.env.*
+config/secrets.yml
+/keys/
+
+# ---------------------------------------------
+# 6. Test/Coverage Output
+# ---------------------------------------------
+/coverage
+/.nyc_output
