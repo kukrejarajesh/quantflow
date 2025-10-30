@@ -11,7 +11,7 @@ os.makedirs(METRICS_DATA_DIR, exist_ok=True)
 def compute_metrics(df):
     """Compute volume delta, cumulative delta, and VWAP for a single instrument."""
     if df.empty:
-        print(f"⚠️ Empty dataframe for {instrument_token}, skipping...")
+        #print(f"⚠️ Empty dataframe for {instrument_token}, skipping...")
         return df
 
     # Sort properly

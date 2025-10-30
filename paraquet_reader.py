@@ -1,10 +1,10 @@
 import pyarrow.parquet as pq
 
 # 1. Read the file
-#parquet_file = pq.ParquetFile('historicaldata/WIPRO.parquet')
+#parquet_file = pq.ParquetFile('historicaldata/ICIBAN.parquet')
 #parquet_file = pq.ParquetFile('tick_data/2025-10-29/3329.parquet')
 #parquet_file = pq.ParquetFile('metrics_data/2025-10-29/140033.parquet')
-parquet_file = pq.ParquetFile('metrics_rollup/daily/2025-10-29/140033.parquet')
+parquet_file = pq.ParquetFile('metrics_rollup/minute/2025-10-30/2170625.parquet')
 #parquet_file = pq.ParquetFile('E:/working/historicaldata/1mincandles/ICIBAN.parquet')
 #parquet_file = pq.ParquetFile('historicaldata/CADHEA_1day_20220101_20251017.parquet')
 # 2. Inspect the Schema
@@ -19,7 +19,7 @@ print("Schema:\n", schema)
 
 # 3. Inspect the Metadata (File-level and Row-Group-level statistics)
 metadata = parquet_file.metadata
-print("\nMetadata:\n", metadata)
+#print("\nMetadata:\n", metadata)
 
 # 4. Read the data (e.g., the whole file or a subset)
 table = parquet_file.read()
@@ -27,10 +27,10 @@ table = parquet_file.read()
 df = table.to_pandas()
 #print("all columns:", df.columns.tolist())
 #print("\nFirst 5 rows of data:\n", df.head())
-print("first row only:\n", df.iloc[0])
+print("first row only:\n", df.iloc[1])
 print("totoal rows:", len(df))
 # Use the .tail() method from Pandas to get the last 5 rows
 last_five_rows = df.tail(5)
-print("last row only:\n", df.iloc[-1])
-print("Index:", df.index)
+print("last row only:\n", df.iloc[-3])
+#print("Index:", df.index)
 #print("\nLast 5 rows of data:\n", last_five_rows)
