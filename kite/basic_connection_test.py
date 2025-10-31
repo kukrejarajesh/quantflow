@@ -79,7 +79,7 @@ if __name__ == "__main__":
         output_filename = f"{exchange}_CashEquities_Tokens.csv"
         df_full.to_csv(output_filename, index=False)
         print(f"✅ Full instrument list saved to {output_filename}")
-        tokens_list = get_nse_index_tokens(kite, index_name="NIFTY 100")
+        tokens_list = get_nse_index_tokens(kite, index_name="NIFTY 200")
         nsetoken_filename = f"NSE_NIFTY100_Tokens.csv"
         pd.DataFrame(tokens_list, columns=['instrument_token']).to_csv(nsetoken_filename, index=False)
         print(tokens_list[:5])

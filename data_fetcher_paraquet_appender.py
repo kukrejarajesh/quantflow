@@ -253,15 +253,23 @@ def main():
         #stocks = ["APOHOS", 	"BAFINS", 	"BHAELE", 	"BOSLIM", 	"BRIIND", 	"CANBAN", 	"DABIND", 	"HERHON", 	"HINDAL", 	"HYUMOT", 	"ICIBAN", 	"JIOFIN", 	"KOTMAH", 	"MAHMAH", 	"PUNBAN", 	"RELIND", 	"SBILIF", 	"SIEMEN", 	"TVSMOT", 	"TITIND", 	"TRENT"]
         #stocks = ["RELIND", "DABIND", 	"HERHON", "APOHOS", "TVSMOT"]
         #stocks =["TVSMOT","HERHON","RELIND","MAHMAH","PUNBAN","APOHOS","HYUMOT","CANBAN","ICIBAN","HDFBAN"]
-        stocks = ["ABB",	"ADATRA",	"ADAENT",	"ADAGRE",	"ADAPOR",	"ADAPOW",	"AMBCE",	"APOHOS",	"ASIPAI",	"AVESUP",	"AXIBAN",	"BAAUTO",
-	            "BAJFI",	"BAFINS",	"BAJHOL",	"BAJHOU",	"BANBAR",	"BHAELE",	"BHAPET",	"BHAAIR",	"BOSLIM",	"BRIIND",	"CROGRE",	"CANBAN",
-	            "CHOINV",	"CIPLA",	"COALIN",	"DLFLIM",	"DABIND",	"DIVLAB",	"DRREDD",	"EICMOT",	"ZOMLIM",	"GAIL",	"GODCON",	"GRASIM",	
-	            "HCLTEC",	"HDFBAN",	"HDFSTA",	"HAVIND",	"HERHON",	"HINDAL",	"HINAER",	"HINLEV",	"HYUMOT",	"ICIBAN",	"ICILOM",	"ICIPRU",	
-	            "ITC",	"INDHOT",	"INDOIL",	"INDR",	"INDBA",	"INFEDG",	"INFTEC",	"INTAVI",	"JSWENE",	"JSWSTE",	"JINSP",	"JIOFIN",	"KOTMAH",
-	            "LTINFO",	"LARTOU",	"LIC",	"MACDEV",	"MAHMAH",	"MARUTI",	"NTPC",	"NESIND",	"ONGC",	"PIDIND",	"POWFIN",	"POWGRI",	"PUNBAN",	
-	            "RURELE",	"RELIND",	"SBILIF",	"MOTSUM",	"SHRCEM",	"SHRTRA",	"SIEMEN",	"STABAN",	"SUNPHA",	"SWILIM",	"TVSMOT",	"TCS",	
-	            "TATGLO",	"TATMOT",	"TATPOW",	"TATSTE",	"TECMAH",	"TITIND",	"TORPHA",	"TRENT",	"ULTCEM",	"UNISPI",	"VARBEV",	"VEDLIM",	
-	            "WIPRO",	"CADHEA"]
+        stocks = ["IIFWEA",	"ABB",	"ACC",	"APLAPO",	"AUSMA",	"ADATRA",	"ADAENT",	"ADAGRE",	"ADAPOR",	"ADAGAS",	"ADICAP",	"ALKLAB",	
+            "AMBCE",	"APOHOS",	"ASHLEY",	"ASIPAI",	"ASTPOL",	"AURPHA",	"AVESUP",	"AXIBAN",	"BSE",	"BAAUTO",	"BAJFI",	"BAFINS",
+            "BAJHOL",	"BAJHOU",	"BANBAR",	"BANIND",	"BHADYN",	"BHAELE",	"BHAFOR",	"BHEL",	"BHAPET",	"BHAAIR",	"BHAHEX",	"BIOCON",	
+            "BLUSTA",	"BOSLIM",	"BRIIND",	"CROGRE",	"CANBAN",	"CHOINV",	"CIPLA",	"COALIN",	"COCSHI",	"NIITEC",	"COLPAL",	"CONCOR",	
+            "CORINT",	"CUMIND",	"DLFLIM",	"DABIND",	"DIVLAB",	"DIXTEC",	"DRREDD",	"EICMOT",	"ZOMLIM",	"EXIIND",	"FSNECO",	"FEDBAN",	
+            "FORHEA",	"GAIL",	"GMRINF",	"GLEPHA",	"GODPHI",	"GODCON",	"GODPRO",	"GRASIM",	"HCLTEC",	"HDFAMC",	"HDFBAN",	"HDFSTA",	"HAVIND",	
+            "HERHON",	"HINDAL",	"HINAER",	"HINPET",	"HINLEV",	"HINZIN",	"ABBPOW",	"HUDCO",	"HYUMOT",	"ICIBAN",	"ICILOM",	"IDFBAN",	"IRBINF",
+            "ITCHOT",	"ITC",	"INDIBA",	"INDHOT",	"INDOIL",	"INDRAI",	"INDR",	"INDREN",	"INDGAS",	"BHAINF",	"INDBA",	"INFEDG",	"INFTEC",
+            "INTAVI",	"JSWENE",	"JSWSTE",	"JINSP",	"JIOFIN",	"JUBFOO",	"KEIIND",	"KPITE",	"KALJEW",	"KOTMAH",	"LTFINA",	"LICHF",	"LTINFO",
+            "LARTOU",	"LIC",	"MACDEV",	"LUPIN",	"MRFTYR",	"MAHFIN",	"MAHMAH",	"MAPHA",	"MARLIM",	"MARUTI",	"MAXFIN",	"MAXHEA",	"MAZDOC",
+            "MOTOSW",	"MPHLIM",	"MUTFIN",	"NHPC",	"NATMIN",	"NTPGRE",	"NTPC",	"NATALU",	"NESIND",	"OBEREA",	"ONGC",	"OILIND",	"ONE97",	"ORAFIN",
+            "PBFINT",	"PIIND",	"PAGIND",	"RUCSOY",	"PERSYS",	"PHOMIL",	"PIDIND",	"POLI",	"POWFIN",	"POWGRI",	"PREENR",	"PREEST",	"PUNBAN",
+            "RURELE",	"RAIVIK",	"RELIND",	"SBICAR",	"SBILIF",	"SRF",	"MOTSUM",	"SHRCEM",	"SHRTRA",	"SIEENE",	"SIEMEN",	"SOLIN",	"SONBLW",	
+            "STABAN",	"SAIL",	"SUNPHA",	"SUPIND",	"SUZENE",	"SWILIM",	"TVSMOT",	"TATCOM",	"TCS",	"TATGLO",	"TATELX",	"TATMOT",	"TATPOW",	
+            "TATSTE",	"TATTEC",	"TECMAH",	"TITIND",	"TORPHA",	"TORPOW",	"TRENT",	"TUBIN",	"UNIP",	"ULTCEM",	"UNIBAN",	"VARBEV",	"VEDLIM",
+            "VISMEG",	"IDECEL",	"VOLTAS",	"WAAENE",	"WIPRO",	"YESBAN",	"CADHEA"]
+
         #stocks = ["RELIND"]
         # Get today's date
         # Get today's date as a pandas Timestamp
@@ -286,7 +294,7 @@ def main():
                 print(f"Start date : {start_date.date()}")
             else:
                 # If no existing data, fetch from a default start date
-                start_date = pd.Timestamp(datetime(2022, 1, 1).date())
+                start_date = pd.Timestamp(datetime(2025, 8, 1).date())
                 print(f"No existing data found for {symbol}, fetching from {start_date}")
             
             # Ensure start_date is a pandas Timestamp for comparison
