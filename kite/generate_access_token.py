@@ -1,10 +1,21 @@
 # generate_access_token.py
 from kiteconnect import KiteConnect
 import webbrowser
+from dotenv import load_dotenv
+import os
 
+env_path = os.path.join(os.path.dirname(__file__), "../../config\.env")
+print(f"Loading .env from: {env_path}")
+# Load .env file from that path
+load_dotenv(dotenv_path=env_path)
+
+api_key=os.getenv("ZERODHA_API_KEY")
+api_secret=os.getenv("ZERODHA_API_SECRET")
+access_token=os.getenv("ZERODHA_ACCESS_TOKEN")
+print(f"Loaded API Key: {api_key}")
 # Step 2.1: Initialize with API Key
-api_key = "your_api_key_here"
-kite = KiteConnect(api_key="aetakpl518dwhg5l")
+
+kite = KiteConnect(api_key=api_key)
 
 # Step 2.2: Generate login URL
 print("Opening browser for login...")
@@ -18,8 +29,8 @@ request_token = input("Enter the request token from URL: ")
 
 # Step 2.4: Generate session and access token
 
-#data = kite.generate_session(request_token, api_secret="haeb4dodlolylu9ignme4fbqa9l80o3e")
-data = kite.generate_session(request_token, api_secret="hsctl0kpfcqqhf7jka82wk30itxl2q1p")
+
+data = kite.generate_session(request_token, api_secret=api_secret)
 
 access_token = data["access_token"]
 
