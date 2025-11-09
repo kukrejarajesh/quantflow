@@ -1,10 +1,12 @@
 import pyarrow.parquet as pq
 
 # 1. Read the file
-#parquet_file = pq.ParquetFile('historicaldata/ICIBAN.parquet')
-#parquet_file = pq.ParquetFile('tick_data/2025-10-29/177665.parquet')
+#parquet_file = pq.ParquetFile('historicaldata/LICHF_fixed.parquet')
+#parquet_file = pq.ParquetFile('tick_data/2025-10-29/2170625.parquet')
 #parquet_file = pq.ParquetFile('metrics_data/2025-10-30/140033.parquet')
-parquet_file = pq.ParquetFile('metrics_rollup/hourly/2025-10-30/4451329.parquet')
+#parquet_file = pq.ParquetFile('metrics_rollup/quarterly/dashboard_zscores.parquet')
+parquet_file = pq.ParquetFile('metrics_rollup/quarterly/interval_volume_summary_2025-10-31_to_2025-11-07.parquet')
+#parquet_file = pq.ParquetFile('metrics_rollup/quarterly/2025-11-07/3329.parquet')
 #parquet_file = pq.ParquetFile('E:/working/historicaldata/1mincandles/ICIBAN.parquet')
 #parquet_file = pq.ParquetFile('historicaldata/CADHEA_1day_20220101_20251017.parquet')
 # 2. Inspect the Schema
@@ -25,16 +27,16 @@ metadata = parquet_file.metadata
 table = parquet_file.read()
 # Convert to a Pandas DataFrame for easy viewing
 df = table.to_pandas()
-print("all columns:", df.columns.tolist())
-#print("\nFirst 5 rows of data:\n", df.head())
-#print("first row only:\n", df.iloc[0])
-#print("totoal rows:", len(df))
-print("vwap values:\n", df['vwap'])
-print("ohlc close:\n", df['ohlc_close'])
-print("volume_delta values:\n", df['volume_delta'])
-print("cumulative_volume_delta values:\n", df['cumulative_volume_delta'])
-# Use the .tail() method from Pandas to get the last 5 rows
-last_five_rows = df.tail(5)
-#print("last row only:\n", df.iloc[-1])
-#print("Index:", df.index)
+#print("all columns:", df.columns.tolist())
+print("\nFirst 5 rows of data:\n", df.head())
+print("first row only:\n", df.iloc[0])
+print("totoal rows:", len(df))
+# print("vwap values:\n", df['vwap'])
+# #print("ohlc close:\n", df['ohlc_close'])
+# print("volume_delta values:\n", df['volume_delta'])
+# #print("cumulative_volume_delta values:\n", df['cumulative_volume_delta'])
+# # Use the .tail() method from Pandas to get the last 5 rows
+# last_five_rows = df.tail(5)
+print("last row only:\n", df.iloc[-1])
+print("Index:", df.index)
 #print("\nLast 5 rows of data:\n", last_five_rows)

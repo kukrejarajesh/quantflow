@@ -260,16 +260,16 @@ def main():
             "CORINT",	"CUMIND",	"DLFLIM",	"DABIND",	"DIVLAB",	"DIXTEC",	"DRREDD",	"EICMOT",	"ZOMLIM",	"EXIIND",	"FSNECO",	"FEDBAN",	
             "FORHEA",	"GAIL",	"GMRINF",	"GLEPHA",	"GODPHI",	"GODCON",	"GODPRO",	"GRASIM",	"HCLTEC",	"HDFAMC",	"HDFBAN",	"HDFSTA",	"HAVIND",	
             "HERHON",	"HINDAL",	"HINAER",	"HINPET",	"HINLEV",	"HINZIN",	"ABBPOW",	"HUDCO",	"HYUMOT",	"ICIBAN",	"ICILOM",	"IDFBAN",	"IRBINF",
-            "ITCHOT",	"ITC",	"INDIBA",	"INDHOT",	"INDOIL",	"INDRAI",	"INDR",	"INDREN",	"INDGAS",	"BHAINF",	"INDBA",	"INFEDG",	"INFTEC",
-            "INTAVI",	"JSWENE",	"JSWSTE",	"JINSP",	"JIOFIN",	"JUBFOO",	"KEIIND",	"KPITE",	"KALJEW",	"KOTMAH",	"LTFINA",	"LICHF",	"LTINFO",
-            "LARTOU",	"LIC",	"MACDEV",	"LUPIN",	"MRFTYR",	"MAHFIN",	"MAHMAH",	"MAPHA",	"MARLIM",	"MARUTI",	"MAXFIN",	"MAXHEA",	"MAZDOC",
-            "MOTOSW",	"MPHLIM",	"MUTFIN",	"NHPC",	"NATMIN",	"NTPGRE",	"NTPC",	"NATALU",	"NESIND",	"OBEREA",	"ONGC",	"OILIND",	"ONE97",	"ORAFIN",
-            "PBFINT",	"PIIND",	"PAGIND",	"RUCSOY",	"PERSYS",	"PHOMIL",	"PIDIND",	"POLI",	"POWFIN",	"POWGRI",	"PREENR",	"PREEST",	"PUNBAN",
-            "RURELE",	"RAIVIK",	"RELIND",	"SBICAR",	"SBILIF",	"SRF",	"MOTSUM",	"SHRCEM",	"SHRTRA",	"SIEENE",	"SIEMEN",	"SOLIN",	"SONBLW",	
-            "STABAN",	"SAIL",	"SUNPHA",	"SUPIND",	"SUZENE",	"SWILIM",	"TVSMOT",	"TATCOM",	"TCS",	"TATGLO",	"TATELX",	"TATMOT",	"TATPOW",	
-            "TATSTE",	"TATTEC",	"TECMAH",	"TITIND",	"TORPHA",	"TORPOW",	"TRENT",	"TUBIN",	"UNIP",	"ULTCEM",	"UNIBAN",	"VARBEV",	"VEDLIM",
-            "VISMEG",	"IDECEL",	"VOLTAS",	"WAAENE",	"WIPRO",	"YESBAN",	"CADHEA"]
-
+            "ITCHOT",	"ITC",	"INDIBA",	"INDHOT",	"INDOIL",	"INDRAI",	"INDR",	"INDREN",	"INDGAS",	"BHAINF",	"INDBA",	"INFEDG"]
+        # stocks = [	"INFTEC",
+        #     "INTAVI",	"JSWENE",	"JSWSTE",	"JINSP",	"JIOFIN",	"JUBFOO",	"KEIIND",	"KPITE",	"KALJEW",	"KOTMAH",	"LTFINA",	"LICHF",	"LTINFO",
+        #     "LARTOU",	"LIC",	"MACDEV",	"LUPIN",	"MRFTYR",	"MAHFIN",	"MAHMAH",	"MAPHA",	"MARLIM",	"MARUTI",	"MAXFIN",	"MAXHEA",	"MAZDOC",
+        #     "MOTOSW",	"MPHLIM",	"MUTFIN",	"NHPC",	"NATMIN",	"NTPGRE",	"NTPC",	"NATALU",	"NESIND",	"OBEREA",	"ONGC",	"OILIND",	"ONE97",	"ORAFIN",
+        #     "PBFINT",	"PIIND",	"PAGIND",	"RUCSOY",	"PERSYS",	"PHOMIL",	"PIDIND",	"POLI",	"POWFIN",	"POWGRI",	"PREENR",	"PREEST",	"PUNBAN",
+        #     "RURELE",	"RAIVIK",	"RELIND",	"SBICAR",	"SBILIF",	"SRF",	"MOTSUM",	"SHRCEM",	"SHRTRA",	"SIEENE",	"SIEMEN",	"SOLIN",	"SONBLW",	
+        #     "STABAN",	"SAIL",	"SUNPHA",	"SUPIND",	"SUZENE",	"SWILIM",	"TVSMOT",	"TATCOM",	"TCS",	"TATGLO",	"TATELX",	"TATMOT",	"TATPOW",	
+        #     "TATSTE",	"TATTEC",	"TECMAH",	"TITIND",	"TORPHA",	"TORPOW",	"TRENT",	"TUBIN",	"UNIP",	"ULTCEM",	"UNIBAN",	"VARBEV",	"VEDLIM",
+        #     "VISMEG",	"IDECEL",	"VOLTAS",	"WAAENE",	"WIPRO",	"YESBAN",	"CADHEA"]
         #stocks = ["RELIND"]
         # Get today's date
         # Get today's date as a pandas Timestamp
@@ -321,7 +321,7 @@ def main():
                 print(f"No new data available for {symbol}")
             
             # Add a delay to respect API rate limits
-            time.sleep(1)
+            #time.sleep(1)
         
         print("Daily data update completed!")
         

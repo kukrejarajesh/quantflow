@@ -2,7 +2,12 @@ import os
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-from config import fast_window, slow_window
+from config import fast_window, slow_window, instruments_to_process
+import sys
+
+instruments_to_process = set(instruments_to_process)
+sys.stdout.reconfigure(encoding='utf-8')
+
 TICK_DATA_DIR = "tick_data"
 METRICS_DATA_DIR = "metrics_data"
 
@@ -108,9 +113,11 @@ def process_instrument_file(file_path, output_path):
 
 
 def run_batch_metrics():
+    
+    
     """Iterate over all tick_data folders and process metrics for each file."""
     #for date_folder in sorted(os.listdir(TICK_DATA_DIR)):
-    for date_folder in ['2025-10-30']:
+    for date_folder in ['2025-11-07']:
         date_path = os.path.join(TICK_DATA_DIR, date_folder)
         if not os.path.isdir(date_path):
             continue
@@ -123,6 +130,12 @@ def run_batch_metrics():
 
         for file_name in tqdm(parquet_files, desc=f"Processing {date_folder}"):
             instrument_token = os.path.splitext(file_name)[0]
+           
+            #uncomment below to process all instruments
+            if int(instrument_token) not in instruments_to_process:
+                print(f"Skipping instrument token: {instrument_token}")
+                continue
+            print(f"Processing instrument token: {instrument_token}")
             file_path = os.path.join(date_path, file_name)
             output_path = os.path.join(output_date_path, file_name)
 
