@@ -12,4 +12,5 @@ Rollup_metrics_batch again date need to be specified, to make sure it looks for 
 Generate_z_score: One need to specify clearly from which parquet mean and s.d will be read, date need to be specified to process data from that folder
 
 This 15 minute real time update of data can be monitored via zscore_dashboard... 
+zscore_dashboard_v2 created to have instrument and date filter
 

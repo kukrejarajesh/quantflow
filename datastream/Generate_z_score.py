@@ -1,14 +1,16 @@
 import os
 import pandas as pd
 from datetime import time
-from config import  instruments_to_process
+from config import  instruments_to_process, example_tokens
 instruments_to_process = set(instruments_to_process)
+#to process all NSE 200 instruments, uncomment below line
+#instruments_to_process = set(example_tokens)
 # === CONFIGURATION ===
 ROLLUP_ROOT = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly"
-SUMMARY_PATH = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly\interval_volume_summary_2025-10-31_to_2025-11-07.parquet"
+SUMMARY_PATH = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly\interval_volume_summary_2025-10-31_to_2025-11-14.parquet"
 OUTPUT_PATH = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly\dashboard_zscores.parquet"
 
-DATE_FOLDER = "2025-11-07"   # 👈 The folder to process (latest date)
+DATE_FOLDER = "2025-11-17"   # 👈 The folder to process (latest date)
 INSTRUMENTS = instruments_to_process  # 👈 Set of instrument tokens to process
 MARKET_CLOSE = time(15, 15)    # 3:15 PM cutoff
 
@@ -18,7 +20,7 @@ def compute_latest_metrics(date_folder, instruments, summary_df):
     for token in instruments:
         file_path = os.path.join(ROLLUP_ROOT, date_folder, f"{token}.parquet")
         if not os.path.exists(file_path):
-            print(f"⚠️ File not found: {file_path}")
+            print(f" File not found: {file_path}")
             continue
 
         try:
@@ -40,7 +42,7 @@ def compute_latest_metrics(date_folder, instruments, summary_df):
             # Fetch Mean and StdDev from summary
             stats = summary_df[summary_df["instrument_token"] == token]
             if stats.empty:
-                print(f"⚠️ No summary stats for instrument {token}")
+                print(f" No summary stats for instrument {token}")
                 continue
 
             mean_val = stats["mean_interval_volume"].iloc[0]
@@ -55,24 +57,44 @@ def compute_latest_metrics(date_folder, instruments, summary_df):
             last_row["z_score"] = z
 
             # Select final display columns
-            result = last_row[
-                [
-                    "instrument_token", "exchange_timestamp",
-                    "ohlc_open", "ohlc_high", "ohlc_low", "ohlc_close",
-                    "volume_traded", "vwap",
-                    "Mean", "S.D.", "15min_Volume", "z_score"
-                ]
-            ]
+            # result = last_row[
+            #     [
+            #         "instrument_token", "exchange_timestamp",
+            #         "ohlc_open", "ohlc_high", "ohlc_low", "ohlc_close",
+            #         "volume_traded", "vwap",
+            #         "Mean", "S.D.", "15min_Volume", "z_score"
+            #     ]
+            # ]
+            # Create a dictionary with the desired columns (THIS IS THE FIX)
+            result = {
+                "instrument_token": last_row["instrument_token"],
+                "exchange_timestamp": last_row["exchange_timestamp"],
+                "ohlc_open": last_row["ohlc_open"],
+                "ohlc_high": last_row["ohlc_high"],
+                "ohlc_low": last_row["ohlc_low"],
+                "ohlc_close": last_row["ohlc_close"],
+                "volume_traded": last_row["volume_traded"],
+                "vwap": last_row["vwap"],
+                "Mean": last_row["Mean"],
+                "S.D.": last_row["S.D."],
+                "15min_Volume": last_row["15min_Volume"],
+                "z_score": last_row["z_score"]
+            }
+
             results.append(result)
 
         except Exception as e:
-            print(f"⚠️ Error processing {file_path}: {e}")
-
-    return pd.DataFrame(results)
+            print(f" Error processing {file_path}: {e}")
+    # Convert list of dictionaries to DataFrame
+    if results:
+        return pd.DataFrame(results)
+    else:
+        return pd.DataFrame()  # Return empty DataFrame with no columns
+    #return pd.concat(results, ignore_index=True)
 
 
 if __name__ == "__main__":
-    print(f"🔍 Generating Z-score metrics for {DATE_FOLDER}")
+    print(f" Generating Z-score metrics for {DATE_FOLDER}")
 
     summary_df = pd.read_parquet(SUMMARY_PATH)
     summary_df["instrument_token"] = summary_df["instrument_token"].astype(int)
@@ -95,7 +117,7 @@ if __name__ == "__main__":
                     inplace=True
                 )
             except Exception as e:
-                print(f"⚠️ Error reading existing parquet, recreating file: {e}")
+                print(f" Error reading existing parquet, recreating file: {e}")
                 combined_df = final_df.copy()
         else:
             combined_df = final_df.copy()
@@ -106,7 +128,7 @@ if __name__ == "__main__":
         # Save back (overwrite with appended data)
         combined_df.to_parquet(OUTPUT_PATH, index=False)
 
-        print(f"\n✅ Z-score metrics appended to: {OUTPUT_PATH}")
-        print(f"📈 Total rows: {len(combined_df)} | Added: {len(final_df)}")
+        print(f"\n Z-score metrics appended to: {OUTPUT_PATH}")
+        print(f" Total rows: {len(combined_df)} | Added: {len(final_df)}")
     else:
-        print("⚠️ No results generated. Check input files.")
+        print(" No results generated. Check input files.")

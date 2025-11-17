@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 # === CONFIGURATION ===
 SCRIPT_1 = "src/datastream/TickLevelMetrics.py"
 SCRIPT_2 = "src/datastream/Rollup_Metrics_Batch.py"
-INTERVAL_MINUTES = 15  # Run every 15 minutes
+SCRIPT_3 = "src/datastream/Generate_z_score.py"
+INTERVAL_MINUTES = 1  # Run every 15 minutes
 
 
 def run_script(script_name):
@@ -60,9 +61,15 @@ if __name__ == "__main__":
 
             # 2️⃣ Run second script only if first succeeded
             if success:
-                run_script(SCRIPT_2)
+                success = run_script(SCRIPT_2)
             else:
                 print("⚠️ Skipping second script because first script failed.")
+
+            if success:
+                run_script(SCRIPT_3)
+            else:
+                print("⚠️ Skipping second script because second script failed.")
+
 
             print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] === Cycle complete ===\n")
 
