@@ -117,7 +117,7 @@ def run_batch_metrics():
     
     """Iterate over all tick_data folders and process metrics for each file."""
     #for date_folder in sorted(os.listdir(TICK_DATA_DIR)):
-    for date_folder in ['2025-11-17']:
+    for date_folder in ['2025-11-27']:
         date_path = os.path.join(TICK_DATA_DIR, date_folder)
         if not os.path.isdir(date_path):
             continue
@@ -132,9 +132,9 @@ def run_batch_metrics():
             instrument_token = os.path.splitext(file_name)[0]
            
             #comment below to process all instruments
-            if int(instrument_token) not in instruments_to_process:
-                print(f"Skipping instrument token: {instrument_token}")
-                continue
+            # if int(instrument_token) not in instruments_to_process:
+            #     print(f"Skipping instrument token: {instrument_token}")
+            #     continue
             print(f"Processing instrument token: {instrument_token}")
             file_path = os.path.join(date_path, file_name)
             output_path = os.path.join(output_date_path, file_name)

@@ -66,7 +66,7 @@ if __name__ == "__main__":
         print(f"📧 Email: {profile['email']}")
         
         # Get instrument token for RELIANCE
-        reliance_token = get_instrument_token(kite, "HDFCBANK")
+        reliance_token = get_instrument_token(kite, "KTKBANK")
         print(f"🔢 RELIANCE Token: {reliance_token}")
         
         exchange="NSE"
@@ -74,14 +74,14 @@ if __name__ == "__main__":
         
         # 2. Get the full list of instruments as a CSV dump (in bytes)
         # The instruments() method returns a large CSV file.
-        instruments_list = kite.instruments(exchange=exchange)
-        df_full = pd.DataFrame(instruments_list)
-        output_filename = f"{exchange}_CashEquities_Tokens.csv"
-        df_full.to_csv(output_filename, index=False)
-        print(f"✅ Full instrument list saved to {output_filename}")
-        tokens_list = get_nse_index_tokens(kite, index_name="NIFTY 200")
-        nsetoken_filename = f"NSE_NIFTY100_Tokens.csv"
-        pd.DataFrame(tokens_list, columns=['instrument_token']).to_csv(nsetoken_filename, index=False)
-        print(tokens_list[:5])
+        # instruments_list = kite.instruments(exchange=exchange)
+        # df_full = pd.DataFrame(instruments_list)
+        # output_filename = f"{exchange}_CashEquities_Tokens.csv"
+        # df_full.to_csv(output_filename, index=False)
+        # print(f"✅ Full instrument list saved to {output_filename}")
+        # tokens_list = get_nse_index_tokens(kite, index_name="NIFTY 200")
+        # nsetoken_filename = f"NSE_NIFTY100_Tokens.csv"
+        # pd.DataFrame(tokens_list, columns=['instrument_token']).to_csv(nsetoken_filename, index=False)
+        # print(tokens_list[:5])
     except Exception as e:
         print(f"❌ Connection failed: {e}")

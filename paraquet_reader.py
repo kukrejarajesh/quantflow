@@ -1,14 +1,15 @@
 import pyarrow.parquet as pq
 
 # 1. Read the file
-#parquet_file = pq.ParquetFile('historicaldata/HYUMOT_fixed.parquet')
-#parquet_file = pq.ParquetFile('tick_data/2025-11-07/3529217.parquet')
-#parquet_file = pq.ParquetFile('metrics_data/2025-10-30/140033.parquet')
-parquet_file = pq.ParquetFile('metrics_rollup/quarterly/dashboard_zscores.parquet')
+#parquet_file = pq.ParquetFile('historicaldata/BHADYN_fixed.parquet')
+#parquet_file = pq.ParquetFile('tick_data/2025-11-18/424961.parquet')
+#parquet_file = pq.ParquetFile('metrics_data/2025-11-21/5013761.parquet')
+#parquet_file = pq.ParquetFile('metrics_rollup/quarterly/dashboard_zscores.parquet')
 #parquet_file = pq.ParquetFile('metrics_rollup/quarterly/interval_volume_summary_2025-10-31_to_2025-11-14.parquet')
-#parquet_file = pq.ParquetFile('metrics_rollup/hourly/2025-11-07/5633.parquet')
-#parquet_file = pq.ParquetFile('E:/working/historicaldata/1mincandles/ICIBAN.parquet')
-#parquet_file = pq.ParquetFile('historicaldata/CADHEA_1day_20220101_20251017.parquet')
+#parquet_file = pq.ParquetFile('metrics_rollup/hourly/2025-11-18/3329.parquet')
+#parquet_file = pq.ParquetFile('F:/working/2024/Zerodha/breeze_data_service/metrics_rollup/consolidated_eod/3329.parquet')
+parquet_file = pq.ParquetFile('F:/working/2024/Zerodha/breeze_data_service/metrics_rollup/consolidated_hourly/3329.parquet')
+#parquet_file = pq.ParquetFile('two_stage_strategy_results/trades.parquet')
 # 2. Inspect the Schema
 schema = parquet_file.schema
 # --- CORRECTION APPLIED HERE ---
@@ -29,7 +30,7 @@ table = parquet_file.read()
 df = table.to_pandas()
 print("all columns:", df.columns.tolist())
 # print("\nFirst 5 rows of data:\n", df.head())
-# print("first row only:\n", df.iloc[0])
+print("first row only:\n", df.iloc[0])
 print("totoal rows:", len(df))
 #print(df)
 # print("vwap values:\n", df['vwap'])
@@ -40,4 +41,4 @@ print("totoal rows:", len(df))
 last_five_rows = df.tail(5)
 print("last row only:\n", df.iloc[-1])
 # print("Index:", df.index)
-#print("\nLast 5 rows of data:\n", last_five_rows)
+print("\nLast 5 rows of data:\n", last_five_rows)
