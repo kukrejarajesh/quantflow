@@ -34,7 +34,7 @@ class TwoStageConfig:
     MAX_HOURS_TO_WAIT = 6   # If no confirmation in 3 hours, skip
     
     # Exit parameters
-    STOP_LOSS_PCT = 1.5
+    STOP_LOSS_PCT = 2.5
     TRAILING_STOP_PCT = .75
 
 
@@ -688,7 +688,7 @@ if __name__ == "__main__":
     
     # Date range
     START_DATE = "2025-11-01"
-    END_DATE = "2025-11-27"
+    END_DATE = "2025-12-02"
     
     print("="*80)
     print("🚀 TWO-STAGE EMA BREAKOUT STRATEGY")

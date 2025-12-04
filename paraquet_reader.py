@@ -1,14 +1,14 @@
 import pyarrow.parquet as pq
 
 # 1. Read the file
-#parquet_file = pq.ParquetFile('historicaldata/BHADYN_fixed.parquet')
+#parquet_file = pq.ParquetFile('historicaldata/DIVLAB_fixed.parquet')
 #parquet_file = pq.ParquetFile('tick_data/2025-11-18/424961.parquet')
 #parquet_file = pq.ParquetFile('metrics_data/2025-11-21/5013761.parquet')
 #parquet_file = pq.ParquetFile('metrics_rollup/quarterly/dashboard_zscores.parquet')
 #parquet_file = pq.ParquetFile('metrics_rollup/quarterly/interval_volume_summary_2025-10-31_to_2025-11-14.parquet')
-#parquet_file = pq.ParquetFile('metrics_rollup/hourly/2025-11-18/3329.parquet')
-#parquet_file = pq.ParquetFile('F:/working/2024/Zerodha/breeze_data_service/metrics_rollup/consolidated_eod/3329.parquet')
-parquet_file = pq.ParquetFile('F:/working/2024/Zerodha/breeze_data_service/metrics_rollup/consolidated_hourly/3329.parquet')
+#parquet_file = pq.ParquetFile('metrics_rollup/hourly/2025-11-27/341249.parquet')
+parquet_file = pq.ParquetFile('F:/working/2024/Zerodha/breeze_data_service/metrics_rollup/consolidated_eod/3329.parquet')
+#parquet_file = pq.ParquetFile('F:/working/2024/Zerodha/breeze_data_service/metrics_rollup/consolidated_hourly/3329.parquet')
 #parquet_file = pq.ParquetFile('two_stage_strategy_results/trades.parquet')
 # 2. Inspect the Schema
 schema = parquet_file.schema

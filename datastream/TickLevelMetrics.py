@@ -117,7 +117,7 @@ def run_batch_metrics():
     
     """Iterate over all tick_data folders and process metrics for each file."""
     #for date_folder in sorted(os.listdir(TICK_DATA_DIR)):
-    for date_folder in ['2025-11-27']:
+    for date_folder in ['2025-12-04']:
         date_path = os.path.join(TICK_DATA_DIR, date_folder)
         if not os.path.isdir(date_path):
             continue

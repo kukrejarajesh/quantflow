@@ -53,7 +53,7 @@ def rollup_all_instruments(metrics_base_dir="metrics_data", output_base_dir="met
 
     # Iterate over all date folders
     #for trade_date in os.listdir(metrics_base_dir):
-    for trade_date in ['2025-11-27']:    
+    for trade_date in ['2025-12-04']:    
         date_path = os.path.join(metrics_base_dir, trade_date)
         print(f"Processing date: {trade_date}")
         print(f"Date path: {date_path}")

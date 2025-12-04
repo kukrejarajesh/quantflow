@@ -6,8 +6,12 @@ from datetime import datetime, timedelta
 # === CONFIGURATION ===
 SCRIPT_1 = "src/datastream/TickLevelMetrics.py"
 SCRIPT_2 = "src/datastream/Rollup_Metrics_Batch.py"
-SCRIPT_3 = "src/datastream/Generate_z_score.py"
-INTERVAL_MINUTES = 1  # Run every 15 minutes
+SCRIPT_3 = "src/utility/hourly_indicators_data_consolidator.py"
+SCRIPT_4 = "src/utility/eod_ema_data_consolidator.py"
+SCRIPT_5 = "src/datastream/Generate_z_score.py"
+
+
+INTERVAL_MINUTES = 2  # Run every 15 minutes
 
 
 def run_script(script_name):
@@ -68,8 +72,16 @@ if __name__ == "__main__":
             if success:
                 run_script(SCRIPT_3)
             else:
-                print("⚠️ Skipping second script because second script failed.")
+                print("⚠️ Skipping third script because second script failed.")
+            if success:
+                success = run_script(SCRIPT_4)
+            else:
+                print("⚠️ Skipping fourth script because third script failed.")
 
+            if success:
+                run_script(SCRIPT_5)
+            else:
+                print("⚠️ Skipping fifth script because fourth script failed.")
 
             print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] === Cycle complete ===\n")
 

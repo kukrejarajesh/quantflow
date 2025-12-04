@@ -7,10 +7,10 @@ instruments_to_process = set(instruments_to_process)
 #instruments_to_process = set(example_tokens)
 # === CONFIGURATION ===
 ROLLUP_ROOT = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly"
-SUMMARY_PATH = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly\interval_volume_summary_2025-10-31_to_2025-11-21.parquet"
+SUMMARY_PATH = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly\interval_volume_summary_2025-10-31_to_2025-11-27.parquet"
 OUTPUT_PATH = r"F:\working\2024\Zerodha\breeze_data_service\metrics_rollup\quarterly\dashboard_zscores.parquet"
 
-DATE_FOLDER = "2025-11-27"   # 👈 The folder to process (latest date)
+DATE_FOLDER = "2025-12-04"   # 👈 The folder to process (latest date)
 INSTRUMENTS = instruments_to_process  # 👈 Set of instrument tokens to process
 MARKET_CLOSE = time(15, 15)    # 3:15 PM cutoff
 

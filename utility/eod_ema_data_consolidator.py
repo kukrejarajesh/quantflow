@@ -3,6 +3,7 @@ EOD Data Consolidator - Consolidates daily metrics across dates and calculates E
 """
 
 import os
+import sys
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -10,6 +11,7 @@ from datetime import datetime
 import gc
 from tqdm import tqdm
 
+sys.stdout.reconfigure(encoding='utf-8')
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
@@ -30,11 +32,19 @@ class ConsolidatorConfig:
     OVERWRITE_EXISTING = False  # If False, only update with new dates
     BATCH_SIZE = 50  # Process N instruments at a time
 
+    # NEW: Force recalculation for today
+    ALWAYS_RECALC_TODAY = True  # If True, always recalculate for current date
 
 # ==============================================================================
 # HELPER FUNCTIONS
 # ==============================================================================
 
+# CHANGE 2: Add this helper function (add after get_all_instruments function)
+def get_today_date():
+    """
+    Get today's date in YYYY-MM-DD format
+    """
+    return datetime.now().strftime('%Y-%m-%d')
 def get_all_dates(root_path, start_date=None, end_date=None):
     """
     Get all date folders available in the root path
@@ -178,11 +188,64 @@ def save_consolidated_data(df, instrument_token, output_path):
     df.to_parquet(output_file, index=False)
 
 
+# def update_existing_consolidated_data(instrument_token, new_dates, config):
+#     """
+#     Update existing consolidated data with new dates only
+#     """
+#     output_file = os.path.join(config.OUTPUT_ROOT, f"{instrument_token}.parquet")
+    
+#     # Load existing data
+#     if os.path.exists(output_file):
+#         existing_df = pd.read_parquet(output_file)
+#         existing_df['trading_date'] = pd.to_datetime(existing_df['trading_date'])
+        
+#         # Get dates already in file
+#         existing_dates = set(existing_df['trading_date'].dt.strftime('%Y-%m-%d').unique())
+        
+#         # Filter to only new dates
+#         dates_to_add = [d for d in new_dates if d not in existing_dates]
+        
+#         if not dates_to_add:
+#             return existing_df, 0  # No new dates to add
+        
+#         # Load new data
+#         new_df = load_instrument_data_across_dates(
+#             instrument_token,
+#             dates_to_add,
+#             config.DAILY_DATA_ROOT
+#         )
+        
+#         if new_df is None or len(new_df) == 0:
+#             return existing_df, 0
+        
+#         # Combine with existing
+#         combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+#         combined_df = combined_df.sort_values('trading_date')
+#         combined_df = combined_df.drop_duplicates(subset=['trading_date'], keep='last')
+        
+#         # Recalculate all EMAs on combined data
+#         # Drop old EMA columns
+#         ema_cols = [col for col in combined_df.columns if col.startswith('EMA_')]
+#         combined_df = combined_df.drop(columns=ema_cols, errors='ignore')
+        
+#         # Recalculate
+#         combined_df = calculate_all_emas(combined_df, config.EMA_PERIODS)
+#         combined_df['last_updated'] = datetime.now()
+        
+#         return combined_df, len(dates_to_add)
+    
+#     else:
+#         # No existing file, create fresh
+#         df = consolidate_instrument(instrument_token, new_dates, config)
+#         return df, len(new_dates) if df is not None else 0
+# CHANGE 3: Replace the update_existing_consolidated_data function with this:
 def update_existing_consolidated_data(instrument_token, new_dates, config):
     """
-    Update existing consolidated data with new dates only
+    Update existing consolidated data with new dates only.
+    Always recalculate for today if ALWAYS_RECALC_TODAY is True.
     """
     output_file = os.path.join(config.OUTPUT_ROOT, f"{instrument_token}.parquet")
+    today_date = get_today_date()
     
     # Load existing data
     if os.path.exists(output_file):
@@ -192,7 +255,15 @@ def update_existing_consolidated_data(instrument_token, new_dates, config):
         # Get dates already in file
         existing_dates = set(existing_df['trading_date'].dt.strftime('%Y-%m-%d').unique())
         
-        # Filter to only new dates
+        # Filter to only new dates, but exclude today if we want to recalculate it
+        if config.ALWAYS_RECALC_TODAY and today_date in existing_dates:
+            # Remove today from existing, will be recalculated
+            existing_df = existing_df[
+                existing_df['trading_date'].dt.strftime('%Y-%m-%d') != today_date
+            ]
+            existing_dates.discard(today_date)
+        
+        # Dates to add: new dates not in existing + today (if recalc enabled)
         dates_to_add = [d for d in new_dates if d not in existing_dates]
         
         if not dates_to_add:
@@ -228,7 +299,6 @@ def update_existing_consolidated_data(instrument_token, new_dates, config):
         # No existing file, create fresh
         df = consolidate_instrument(instrument_token, new_dates, config)
         return df, len(new_dates) if df is not None else 0
-
 
 # ==============================================================================
 # MAIN CONSOLIDATION ENGINE
@@ -453,11 +523,11 @@ if __name__ == "__main__":
     
     # Confirm before proceeding
     print("\n" + "="*80)
-    response = input("Proceed with consolidation? (yes/no): ").strip().lower()
+    # response = input("Proceed with consolidation? (yes/no): ").strip().lower()
     
-    if response != 'yes':
-        print("❌ Consolidation cancelled")
-        exit()
+    # if response != 'yes':
+    #     print("❌ Consolidation cancelled")
+    #     exit()
     
     # Run consolidation
     stats = consolidate_all_instruments(config)
